@@ -28,6 +28,11 @@ body {
     color: #fff;
 }
 
+.alert-client {
+    background-color: #00b13e;
+    color: #fff;
+}
+
 .alert-secondary {
     background-color: #6c757d;
     color: #fff;
