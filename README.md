@@ -74,7 +74,7 @@ sudo cp -r NAT-Web-Server /srv/http
 Now, you can access the PHP page at:
 
 ```
-localhost/NAT-Web-Server/index.php
+127.0.0.1/NAT-Web-Server/index.php
 ```
 
 ### 5. Access the page from another network via mobile using Ngrok
