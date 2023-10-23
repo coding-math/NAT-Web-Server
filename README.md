@@ -3,7 +3,7 @@
 Welcome to the NAT Web Server repository, a project developed for computer networks at UNIFESP (Universidade Federal de São Paulo). This repository, authored by Matheus Silva [@matheuxito](https://www.github.com/matheuxito), hosts a PHP website using Apache. The site displays server information, including dynamic details such as server name, current time, date, and time zone information.
 
 <div align="center">
-    <img src="images/screenshot.png" alt="Screenshot of NAT Web Server" width="85%">
+    <img src="images/example.png" alt="Screenshot of NAT Web Server" width="85%">
 </div>
 
 ## Setup Instructions (Arch Linux with Yay)
