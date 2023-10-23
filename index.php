@@ -22,26 +22,7 @@
             }
         ?>
         <div class="alert alert-secondary" id="date-time"></div>
-        <?php
-            // Verifica se o IP do cliente é reconhecido
-            $ip = file_get_contents('https://api.ipify.org');
-
-            // Localização do cliente
-            $location = file_get_contents('https://ipinfo.io/' . $ip . '/geo');
-            $locationData = json_decode($location, true);
-
-            $city = $locationData['city'];
-            $state = $locationData['region'];
-            $country = $locationData['country'];
-            $cep = $locationData['postal'];
-
-            if ($ip) {
-                echo '<div class="alert alert-client"><strong>IP do Cliente: </strong>' . $ip . 
-                    '<br><strong>Localização:</strong> ' . $city . ', ' . $state . ', ' . $country . '. CEP: ' . $cep . '</div>';
-            } else {
-                echo '<div class="alert alert-danger"><strong>IP do Cliente não reconhecido</strong></div>';
-            }
-        ?>
+        <div class="alert alert-client" id="client-info"></div>
     </div>
 
     <script type=module>
@@ -54,8 +35,41 @@
             document.getElementById("date-time").innerHTML = "<strong>Data:</strong> " + currentDate + "<br><strong>Hora:</strong> " + currentTime + "<br><strong>Fuso Horário:</strong> " + timeZone;
         }
 
+        function updateClientInformation() {
+            fetch("https://api.ipify.org/?format=json")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Não foi possível obter o IP do cliente");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const { ip } = data;
+                    return fetch(`https://ipapi.co/${ip}/json`);
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Não foi possível obter a localização do cliente");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const { city, region, country } = data;
+                    const clientInfo = `<strong>IP do Cliente:</strong> ${data.ip}<br><strong>Localização: </strong>${city}, ${region}, ${country}`;
+                    document.getElementById("client-info").innerHTML = clientInfo;
+                })
+                .catch(error => {
+                    console.error('Erro ao obter informações do cliente:', error);
+                });
+        }
+
+
         // Atualiza a cada segundo
         setInterval(updateInformation, 1000);
+
+        // Atualiza a cada 50 segundos
+        updateClientInformation();
+        setInterval(updateClientInformation, 50000);
     </script>
 </body>
 </html>
